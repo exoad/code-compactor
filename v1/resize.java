@@ -1,7 +1,7 @@
 /**
 Usage:
 
-java resize.java main.cpp
+java resize.java main.cpp 1
 
 @author Jack Meng
 */
@@ -28,8 +28,7 @@ public class resize {
     return new String[0];
   }
 
-  public static void main(String[] args) {
-    String[] content = getContent(args[0]);
+  public static String v1(String[] content) {
     StringBuilder sb = new StringBuilder();
     for (String s : content) {
       if (s.endsWith(";") || s.endsWith("{") || s.endsWith("}")) {
@@ -39,10 +38,12 @@ public class resize {
         sb.append(s + "\n");
       }
     }
+    sb.replace(sb.indexOf("/*"), sb.indexOf("*/") + 2, "");
     String s = sb.toString();
     s = s.replace(" = ", "=");
     s = s.replace(") {", "){");
     s = s.replace("( ", "(");
+    s = s.replace(") ", ")");
     s = s.replace(" % ", "%");
     s = s.replace(" == ", "==");
     s = s.replace(" != ", "!=");
@@ -80,8 +81,25 @@ public class resize {
     s = s.replace("} ", "}");
     s = s.replace(" {", "{");
     s = s.replace("; ", ";");
+    s = s.replace(", \"", ",\"");
+    s = s.replace("\" ", "\"");
+    s = s.replace(", ", ",");
+    s = s.replaceAll("\\s*\\{", "{");
+    s = s.replaceAll(";\\s*\\n", ";\n");
+    return s;
+  }
+
+  public static void main(String[] args) {
+    String[] content = getContent(args[0]);
+    StringBuilder sb = new StringBuilder();
+    String s = "";
+    if(Integer.parseInt(args[1]) == 1) {
+      s = v1(content);
+    } else {
+      System.out.println("Not implemented yet");
+    }
     System.out.println(s);
-    try (PrintWriter pw = new PrintWriter(new File(args[0] + System.currentTimeMillis() + ".cpp"))) {
+    try (PrintWriter pw = new PrintWriter(new File("main1.cpp"))) {
       pw.println(s);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
