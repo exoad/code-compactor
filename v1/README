@@ -1,0 +1,13 @@
+This is a pretty bad first draft of the initial program, and to use it:
+
+java resize.java <c_plus_plus_>.cpp 1
+
+Example:
+
+java resize.java hello_world.cpp 1
+
+
+the 1 at the end is pretty redundant and will be used in
+later drafts to determine which parser version and mode
+you would want to use
+
